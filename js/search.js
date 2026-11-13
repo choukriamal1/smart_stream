@@ -5,29 +5,27 @@
 // };
 // produits.forEach((produit, index)=>{
 
-import { getData } from "../services/api.js";
+import { afficherChaines } from "./ui.js";
 
 // })
 
 
 
-const search = document.querySelector("#search");
-
-
-export function searchChannels(){
-    let filtered = [];
+export function searchChannels(channels){
+    const search = document.querySelector("#search");
+    // let filtered = [];
         // console.log(filtered)
 
 
-        search.addEventListener("input", async (e)=>{
-            const channels = await getData();
-            console.log(e.target.value)
+        search.addEventListener("input", function (e) {
+          
+            console.log(e.target.value);
         // console.log(e.target.value.toUpperCase())
-        filtered = channels.filter(ch =>
-            (ch.name+ch.channelNumber).toUpperCase().includes(e.target.value.toUpperCase())
-        )
+        const filtered = channels.filter(function (chaine) {
+            return (chaine.name+" "+chaine.channelNumber).toUpperCase().includes(e.target.value.toUpperCase());
+        });
         afficherChaines(filtered)
-    })
+    });
 }
 
   

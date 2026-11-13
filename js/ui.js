@@ -1,10 +1,12 @@
 export function afficherChaines(chaines, codePays){
     const liste=document.getElementById("channels-list");
     //filtrer chaine click
-    const chainesPays=chaines.filter(function(chaine){
+    let chainesPays=chaines;
+    if (codePays){
+        chainesPays = chaines.filter(function(chaine){
         return chaine.countryCode === codePays;
     });
-    
+}
     //creer les liste du chaines
     let html = "";
     chainesPays.forEach(function(chaine){
@@ -47,22 +49,21 @@ export function afficherChaines(chaines, codePays){
                 chaineNumber.textContent = chaine.channelNumber;
                 channelCategory.textContent = chaine.category;
 
-                channelProgram.textContent = chaine.currentProgram;
-                channelTime.textContent = chaine.epg.startTime + " -> " +chaine.epg.startTime; 
-                channelProgress.textContent = chaine.epg.progressPercentage;
+                channelProgram.textContent = chaine.epg.currentProgram;
+                channelTime.textContent = chaine.epg.startTime + " -> " +chaine.epg.endTime; 
+                channelProgress.textContent = chaine.epg.progressPercentage + "%";
             }
                 
-                liste.onclick = function (e) {
-                const bouton = e.target.closest(".channel");
-                if (!bouton) return;
-
-                const chaine = chainesPays.find(function (c) {
-                    return c.id == bouton.dataset.id;
-                });
-                console.log(chaine.channelNumber)
-
-                if (chaine) {
-                    showChannelInfo(chaine);
+                if (chainesPays.length > 0) {
+                    showChannelInfo(chainesPays[0]);
                 }
-            };
-        }
+
+                const boutons = liste.querySelectorAll(".channel");
+
+                boutons.forEach(function (bouton, index) {
+                    bouton.addEventListener("click", function () {
+                        showChannelInfo(chainesPays[index]);
+                        console.log(index, chainesPays[index].name);
+        });
+    });
+}

@@ -1,5 +1,4 @@
 import {getData} from "../services/api.js";
-getData ();
 // import { getChannelsJSON } from "../services/api.js";
 // import {recherche} from "./search.js";
 
@@ -14,10 +13,14 @@ getData ();
 
 
 import {afficherChaines} from "./ui.js";
+import {searchChannels}  from"./search.js";
+
 let tabchaines=[];
 async function init() {
     try {
-        tabchaines = await getData (); //attend réponse puis on met le résultat dans tabl
+        tabchaines = await getData ();
+         //attend réponse puis on met le résultat dans tabl
+         searchChannels(tabchaines);
     }
     catch(erreur){
         console.error("Erreur de chargement :" , erreur);
